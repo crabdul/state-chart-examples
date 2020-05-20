@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './main.css'
 import { useMachine } from '@xstate/react'
 import machine from './machine.js'
@@ -7,6 +7,7 @@ import Card from './Card'
 
 function App() {
     const [current, send] = useMachine(machine)
+    const [username, setUsername] = useState('')
     const currentState = flatten(current.value)
     return (
         <div className="container mx-auto mt-16 px-16">
@@ -18,7 +19,7 @@ function App() {
             </div>
             <form
                 onSubmit={(e) => {
-                    send('FETCH')
+                    send('FETCH', { username })
                     e.preventDefault()
                 }}
             >
@@ -27,9 +28,12 @@ function App() {
                     <input
                         type="text"
                         placeholder="crabdul"
-                        onChange={(e) =>
-                            send('WRITING', { username: e.target.value })
-                        }
+                        onChange={(e) => {
+                            if (currentState === 'resolved') {
+                                send('RESTART')
+                            }
+                            setUsername(e.target.value)
+                        }}
                     />
                 </div>
                 <div className="flex items-center justify-between">
@@ -38,18 +42,30 @@ function App() {
                         {currentState === 'loading.normal' && 'Loading'}
                         {currentState === 'loading.long' &&
                             'Rahhh...dis is taking kinda long still'}
-                        {currentState === 'resolved' && 'Submit'}
+                        {currentState === 'resolved' &&
+                            "Find another user's repos"}
                         {currentState === 'rejected' && 'Try again'}
                     </button>
                 </div>
             </form>
-            <ul>
-                {current.context.repos.map((repo, i) => (
-                    <li key={i}>
-                        <Card {...repo} />
-                    </li>
-                ))}
-            </ul>
+            {currentState === 'rejected' ? (
+                <div role="alert">
+                    <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                        Error
+                    </div>
+                    <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                        <p>No repositories found for {username}</p>
+                    </div>
+                </div>
+            ) : (
+                <ul>
+                    {current.context.repos.map((repo, i) => (
+                        <li key={i}>
+                            <Card {...repo} />
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     )
 }

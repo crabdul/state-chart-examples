@@ -41,12 +41,10 @@ const machine = createMachine({
     states: {
         idle: {
             on: {
-                FETCH: 'loading',
-                WRITING: {
+                FETCH: {
+                    target: 'loading',
                     actions: assign({
-                        username: (_, event) => {
-                            return event.username
-                        },
+                        repos: [],
                     }),
                 },
                 RESET: {
@@ -58,7 +56,7 @@ const machine = createMachine({
         },
         loading: {
             invoke: {
-                src: (context) => fetchRepos(context.username),
+                src: (_, event) => fetchRepos(event.username),
                 onDone: {
                     target: 'resolved',
                     actions: assign({
@@ -76,12 +74,8 @@ const machine = createMachine({
         },
         resolved: {
             on: {
-                RESET: {
+                RESTART: {
                     target: 'idle',
-                    actions: assign({
-                        username: '',
-                        repos: [],
-                    }),
                 },
             },
         },

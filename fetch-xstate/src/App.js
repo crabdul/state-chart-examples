@@ -1,32 +1,55 @@
 import React from 'react'
 import './main.css'
+import { useMachine } from '@xstate/react'
+import machine from './machine.js'
+import { flatten } from './utils'
+import Card from './Card'
 
 function App() {
+    const [current, send] = useMachine(machine)
+    const currentState = flatten(current.value)
     return (
-        <div class="w-full max-w-xs">
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div class="mb-4">
-                    <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="username"
-                    >
-                        Username
-                    </label>
+        <div className="container mx-auto mt-16 px-16">
+            <div
+                className="flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3 mb-2"
+                role="alert"
+            >
+                <p>Current state: {JSON.stringify(currentState, null, 2)}</p>
+            </div>
+            <form
+                onSubmit={(e) => {
+                    send('FETCH')
+                    e.preventDefault()
+                }}
+            >
+                <div className="mb-4">
+                    <label htmlFor="username">Github Username</label>
                     <input
-                        class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
-                        type="email"
-                        placeholder="jane@example.com"
+                        type="text"
+                        placeholder="crabdul"
+                        onChange={(e) =>
+                            send('WRITING', { username: e.target.value })
+                        }
                     />
                 </div>
-                <div class="flex items-center justify-between">
-                    <button
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        type="button"
-                    >
-                        Sign In
+                <div className="flex items-center justify-between">
+                    <button type="submit" data-state={currentState}>
+                        {currentState === 'idle' && 'Submit'}
+                        {currentState === 'loading.normal' && 'Loading'}
+                        {currentState === 'loading.long' &&
+                            'Rahhh...dis is taking kinda long still'}
+                        {currentState === 'resolved' && 'Submit'}
+                        {currentState === 'rejected' && 'Try again'}
                     </button>
                 </div>
             </form>
+            <ul>
+                {current.context.repos.map((repo, i) => (
+                    <li key={i}>
+                        <Card {...repo} />
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

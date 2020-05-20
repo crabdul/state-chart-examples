@@ -1,16 +1,1 @@
 
-button[data-state="loading.alright"] {
-    background-color: blue;
-}
-
-button[data-state="loading.long"] {
-    background-color: red;
-}
-
-button[data-state="resolved"] {
-    background-color: green;
-}
-
-button[data-state="idle"] {
-    background-color: orange;
-}

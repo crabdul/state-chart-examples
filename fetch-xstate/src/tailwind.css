@@ -2,4 +2,36 @@
 
 @tailwind components;
 
+button {
+    @apply font-bold py-2 px-4 rounded;
+}
+button[data-state="idle"] {
+    @apply bg-blue-500 text-white;
+}
+button[data-state^="loading"] {
+    @apply bg-blue-500 text-white opacity-50 cursor-not-allowed;
+}
+button[data-state="resolved"] {
+    @apply bg-green-500 text-white;
+}
+button[data-state="rejected"] {
+    @apply bg-red-700 text-white;
+}
+
+form {
+    @apply bg-white shadow-md rounded px-16 pt-6 pb-8 mb-4;
+}
+
+form label {
+    @apply block text-gray-700 text-sm font-bold mb-2;
+}
+
+form input {
+    @apply bg-white border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal;
+}
+
+form input:focus {
+    @apply outline-none shadow-outline
+}
+
 @tailwind utilities;

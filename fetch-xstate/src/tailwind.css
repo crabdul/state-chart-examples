@@ -13,7 +13,7 @@ button[data-state="idle"] {
     @apply text-white bg-blue-500;
 }
 button[data-state^="loading"] {
-    @apply text-white bg-blue-500 opacity-50 cursor-not-allowed;
+    @apply text-white bg-blue-500 opacity-50 cursor-wait;
 }
 button[data-state="resolved"] {
     @apply text-white bg-green-500;

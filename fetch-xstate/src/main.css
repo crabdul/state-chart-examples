@@ -632,7 +632,7 @@ button[data-state^="loading"] {
   background-color: #4299e1;
   background-color: rgba(66, 153, 225, var(--bg-opacity));
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: wait;
 }
 
 button[data-state="resolved"] {

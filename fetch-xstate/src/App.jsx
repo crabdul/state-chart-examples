@@ -21,27 +21,32 @@ function App() {
                 }}
             >
                 <div className="mb-4">
-                    <label htmlFor="username">Github Username</label>
+                    <label htmlFor="username">Search GitHub repositories</label>
                     <input
                         type="text"
-                        placeholder="crabdul"
-                        onChange={(e) => {
-                            if (currentState === 'resolved') {
-                                send('RESTART')
-                            }
-                            setUsername(e.target.value)
-                        }}
+                        placeholder="username"
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                    {/* className="mr-2 text-white bg-blue-500" */}
                     <button type="submit" data-state={currentState}>
                         {currentState === 'idle' && 'Submit'}
                         {currentState === 'loading.normal' && 'Loading'}
                         {currentState === 'loading.long' &&
-                            'Rahhh...dis is taking kinda long still'}
+                            'RAHHHHHHH dis a long ting'}
                         {currentState === 'resolved' && 'Submit'}
                         {currentState === 'rejected' && 'Try again'}
                     </button>
+                    {currentState === 'loading' && (
+                        <button
+                            type="button"
+                            className="text-white bg-red-300"
+                            onClick={() => send('CANCEL')}
+                        >
+                            Cancel
+                        </button>
+                    )}
                 </div>
             </form>
             {currentState === 'rejected' ? (
@@ -55,7 +60,7 @@ function App() {
                 </div>
             ) : (
                 <ul>
-                    {current.context.repos.map((repo, i) => (
+                    {current.context.results.map((repo, i) => (
                         <li key={i}>
                             <Card {...repo} />
                         </li>

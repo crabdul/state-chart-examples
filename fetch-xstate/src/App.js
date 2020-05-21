@@ -11,10 +11,7 @@ function App() {
     const currentState = flatten(current.value)
     return (
         <div className="container mx-auto mt-16 px-16">
-            <div
-                className="flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3 mb-2"
-                role="alert"
-            >
+            <div className="message">
                 <p>Current state: {JSON.stringify(currentState, null, 2)}</p>
             </div>
             <form
@@ -49,11 +46,9 @@ function App() {
                 </div>
             </form>
             {currentState === 'rejected' ? (
-                <div role="alert">
-                    <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Error
-                    </div>
-                    <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                <div role="alert" className="alert">
+                    <div className="header">Error</div>
+                    <div className="content">
                         <p>No repositories found for {username}</p>
                     </div>
                 </div>

@@ -7,19 +7,19 @@
 
 
 button {
-    @apply font-bold py-2 px-4 rounded;
+    @apply px-4 py-2 font-bold rounded;
 }
 button[data-state="idle"] {
-    @apply bg-blue-500 text-white;
+    @apply text-white bg-blue-500;
 }
 button[data-state^="loading"] {
-    @apply bg-blue-500 text-white opacity-50 cursor-not-allowed;
+    @apply text-white bg-blue-500 opacity-50 cursor-not-allowed;
 }
 button[data-state="resolved"] {
-    @apply bg-green-500 text-white;
+    @apply text-white bg-green-500;
 }
 button[data-state="rejected"] {
-    @apply bg-red-700 text-white;
+    @apply text-white bg-red-700;
 }
 
 
@@ -27,22 +27,32 @@ button[data-state="rejected"] {
 
 
 form {
-    @apply bg-white shadow-md rounded px-16 pt-6 pb-8 mb-4;
+    @apply px-16 pt-6 pb-8 mb-4 bg-white rounded shadow-md;
 }
 
 form label {
-    @apply block text-gray-700 text-sm font-bold mb-2;
+    @apply block mb-2 text-sm font-bold text-gray-700;
 }
 
 form input {
-    @apply bg-white border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal;
+    @apply block w-full px-4 py-2 leading-normal bg-white border border-gray-300 rounded-lg appearance-none;
 }
 
 form input:focus {
     @apply outline-none shadow-outline
 }
 
+.message {
+    @apply flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3 mb-2
+}
 
+.alert .header {
+    @apply px-4 py-2 font-bold text-white bg-red-500 rounded-t;
+}
+
+.alert .content {
+    @apply px-4 py-3 text-red-700 bg-red-100 border border-t-0 border-red-400 rounded-b;
+}
 
 
 

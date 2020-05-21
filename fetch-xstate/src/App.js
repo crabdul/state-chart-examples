@@ -10,7 +10,7 @@ function App() {
     const [username, setUsername] = useState('')
     const currentState = flatten(current.value)
     return (
-        <div className="container mx-auto mt-16 px-16">
+        <div className="container px-16 mx-auto mt-16">
             <div className="message">
                 <p>Current state: {JSON.stringify(currentState, null, 2)}</p>
             </div>
@@ -39,8 +39,7 @@ function App() {
                         {currentState === 'loading.normal' && 'Loading'}
                         {currentState === 'loading.long' &&
                             'Rahhh...dis is taking kinda long still'}
-                        {currentState === 'resolved' &&
-                            "Find another user's repos"}
+                        {currentState === 'resolved' && 'Submit'}
                         {currentState === 'rejected' && 'Try again'}
                     </button>
                 </div>
@@ -49,7 +48,9 @@ function App() {
                 <div role="alert" className="alert">
                     <div className="header">Error</div>
                     <div className="content">
-                        <p>No repositories found for {username}</p>
+                        <p>
+                            No repositories found for {current.context.username}
+                        </p>
                     </div>
                 </div>
             ) : (

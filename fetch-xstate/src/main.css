@@ -703,7 +703,6 @@ form input:focus {
 }
 
 .message {
-  display: flex;
   align-items: center;
   --bg-opacity: 1;
   background-color: #4299e1;

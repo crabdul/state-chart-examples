@@ -45,6 +45,7 @@ const machine = createMachine({
                     target: 'loading',
                     actions: assign({
                         repos: [],
+                        username: (_, event) => event.username,
                     }),
                 },
                 RESET: {

@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import './main.css'
 import { useMachine } from '@xstate/react'
 import machine from './machine.js'
-// import { flatten } from './utils'
+import { flatten } from './utils'
 import Card from './Card'
 
 function App() {
     const [current, send] = useMachine(machine)
     const [username, setUsername] = useState('')
-    const currentState = current.value
+    const currentState = flatten(current.value)
     return (
         <div className="container px-16 mx-auto mt-16">
             <div className="message">
@@ -21,31 +21,32 @@ function App() {
                 }}
             >
                 <div className="mb-4">
-                    <label htmlFor="username">Github Username</label>
+                    <label htmlFor="username">Search GitHub repositories</label>
                     <input
                         type="text"
-                        placeholder="crabdul"
-                        onChange={(e) => {
-                            setUsername(e.target.value)
-                        }}
+                        placeholder="username"
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div className="flex items-center">
-                    <button
-                        type="submit"
-                        className="mr-2 text-white bg-blue-500"
-                    >
+                    {/* className="mr-2 text-white bg-blue-500" */}
+                    <button type="submit" data-state={currentState}>
                         {currentState === 'idle' && 'Submit'}
-                        {currentState === 'loading' && 'Loading'}
+                        {currentState === 'loading.normal' && 'Loading'}
+                        {currentState === 'loading.long' &&
+                            'RAHHHHHHH dis a long ting'}
                         {currentState === 'resolved' && 'Submit'}
                         {currentState === 'rejected' && 'Try again'}
                     </button>
-                    {/* <button */}
-                    {/*     type="button" */}
-                    {/*     className="text-white bg-red-300" */}
-                    {/* > */}
-                    {/*     Cancel */}
-                    {/* </button> */}
+                    {currentState === 'loading' && (
+                        <button
+                            type="button"
+                            className="text-white bg-red-300"
+                            onClick={() => send('CANCEL')}
+                        >
+                            Cancel
+                        </button>
+                    )}
                 </div>
             </form>
             {currentState === 'rejected' ? (

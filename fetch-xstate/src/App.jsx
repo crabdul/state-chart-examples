@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import './main.css'
 import { useMachine } from '@xstate/react'
 import machine from './machine.js'
-import { flatten } from './utils'
+// import { flatten } from './utils'
 import Card from './Card'
 
 function App() {
     const [current, send] = useMachine(machine)
     const [username, setUsername] = useState('')
-    const currentState = flatten(current.value)
+    // const currentState = flatten(current.value)
+    const currentState = current.value
     return (
         <div className="container px-16 mx-auto mt-16">
             <div className="message">
@@ -29,24 +30,24 @@ function App() {
                     />
                 </div>
                 <div className="flex items-center">
-                    {/* className="mr-2 text-white bg-blue-500" */}
-                    <button type="submit" data-state={currentState}>
+                    <button
+                        type="submit"
+                        className="mr-2 text-white bg-blue-500"
+                    >
                         {currentState === 'idle' && 'Submit'}
-                        {currentState === 'loading.normal' && 'Loading'}
-                        {currentState === 'loading.long' &&
-                            'RAHHHHHHH dis a long ting'}
+                        {currentState === 'loading' && 'Loading'}
                         {currentState === 'resolved' && 'Submit'}
                         {currentState === 'rejected' && 'Try again'}
                     </button>
-                    {currentState === 'loading' && (
-                        <button
-                            type="button"
-                            className="text-white bg-red-300"
-                            onClick={() => send('CANCEL')}
-                        >
-                            Cancel
-                        </button>
-                    )}
+                    {/* {currentState === 'loading' && ( */}
+                    {/*     <button */}
+                    {/*         type="button" */}
+                    {/*         className="text-white bg-red-300" */}
+                    {/*         onClick={() => send('CANCEL')} */}
+                    {/*     > */}
+                    {/*         Cancel */}
+                    {/*     </button> */}
+                    {/* )} */}
                 </div>
             </form>
             {currentState === 'rejected' ? (

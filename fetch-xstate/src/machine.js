@@ -1,17 +1,5 @@
 import { createMachine, assign } from 'xstate'
 
-const loadingState = {
-    initial: 'normal',
-    states: {
-        normal: {
-            after: {
-                2000: 'long',
-            },
-        },
-        long: {},
-    },
-}
-
 const machine = createMachine({
     context: {
         results: [],
@@ -43,33 +31,9 @@ const machine = createMachine({
                     target: 'rejected',
                 },
             },
-            on: {
-                CANCEL: 'idle',
-            },
-            ...loadingState,
         },
-        resolved: {
-            on: {
-                FETCH: {
-                    target: 'loading',
-                    actions: assign({
-                        results: [],
-                        username: (_, event) => event.username,
-                    }),
-                },
-            },
-        },
-        rejected: {
-            on: {
-                FETCH: {
-                    target: 'loading',
-                    actions: assign({
-                        results: [],
-                        username: (_, event) => event.username,
-                    }),
-                },
-            },
-        },
+        resolved: {},
+        rejected: {},
     },
 })
 

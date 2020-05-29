@@ -38,10 +38,10 @@ function App() {
                         {currentState === 'resolved' && 'Submit'}
                         {currentState === 'rejected' && 'Try again'}
                     </button>
-                    {currentState === 'loading' && (
+                    {currentState.includes('loading') && (
                         <button
                             type="button"
-                            className="text-white bg-red-300"
+                            className="text-white bg-red-600 ml-2"
                             onClick={() => send('CANCEL')}
                         >
                             Cancel
